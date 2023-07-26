@@ -24,9 +24,9 @@ def get_page_links(page_url):
 def test_ornl_https_download_links():
     urls = get_page_links(
         (
-            "https://esgf-node.ornl.gov/thredds/catalog/esg_dataroot/css03_data/CMIP6/"
+            "https://esgf-node.ornl.gov/thredds/catalog/css03_data/CMIP6/"
             "CMIP/NCAR/CESM2/historical/r1i1p1f1/fx/areacella/gn/v20190308/catalog.html?dataset="
-            "esg_dataroot/css03_data/CMIP6/CMIP/NCAR/CESM2/historical/r1i1p1f1/fx/areacella/gn/v20190308/"
+            "css03_data/CMIP6/CMIP/NCAR/CESM2/historical/r1i1p1f1/fx/areacella/gn/v20190308/"
             "areacella_fx_CESM2_historical_r1i1p1f1_gn.nc"
         )
     )
@@ -43,9 +43,9 @@ def test_ornl_https_download_links():
 def test_ornl_opendap_download_links():
     urls = get_page_links(
         (
-            "https://esgf-node.ornl.gov/thredds/catalog/esg_dataroot/"
+            "https://esgf-node.ornl.gov/thredds/catalog/"
             "css03_data/CMIP6/CMIP/NCAR/CESM2/historical/r1i1p1f1/fx/areacella/gn/v20190308/catalog.html?dataset="
-            "esg_dataroot/css03_data/CMIP6/CMIP/NCAR/CESM2/historical/r1i1p1f1/fx/areacella/gn/v20190308/areacella_fx_CESM2_historical_r1i1p1f1_gn.nc"
+            "css03_data/CMIP6/CMIP/NCAR/CESM2/historical/r1i1p1f1/fx/areacella/gn/v20190308/areacella_fx_CESM2_historical_r1i1p1f1_gn.nc"
         )
     )
     for url in urls:
