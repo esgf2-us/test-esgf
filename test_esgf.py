@@ -1,9 +1,11 @@
 import re
 
 import requests
+import json
 from netCDF4 import Dataset
 from pyesgf.search import SearchConnection
 
+EXPECTED_FILES = 40000000
 
 def get_page_links(page_url):
     """Get all the urls on this page, but ignore those which link to catalogs or ipython
@@ -115,9 +117,22 @@ def check_search(esg_search: str):
             )
 
 
+def check_file_core(core):
+    file_url = f"https://{core}/esg-search/search?type=File&distrib=false&limit=0&format=application%2fsolr%2bjson"
+    resp = requests.get(file_url)
+    
+    numfound = resp.json()["response"]["numFound"] 
+    if numfound < EXPECTED_FILES:
+        raise ValueError(f"At {core}: {numfound} files found, below the {EXPECTED_FILES} threshold.")
+
+
 def test_ornl_search():
-    check_search("https://esgf-node.ornl.gov/esg-search")
+    check_search("https://esgf-node.ornl.gov/esg-search/")
 
 
 def test_llnl_search():
     check_search("https://esgf-node.llnl.gov/esg-search")
+
+
+def test_ornl_file_core():
+    check_file_core("esgf-node.ornl.gov")
