@@ -1,11 +1,13 @@
+import json
 import re
 
+import pytest
 import requests
-import json
 from netCDF4 import Dataset
 from pyesgf.search import SearchConnection
 
 EXPECTED_FILES = 40000000
+
 
 def get_page_links(page_url):
     """Get all the urls on this page, but ignore those which link to catalogs or ipython
@@ -23,6 +25,7 @@ def get_page_links(page_url):
     return urls
 
 
+@pytest.mark.ornl
 def test_ornl_https_download_links():
     urls = get_page_links(
         (
@@ -42,6 +45,7 @@ def test_ornl_https_download_links():
             )
 
 
+@pytest.mark.ornl
 def test_ornl_opendap_download_links():
     urls = get_page_links(
         (
@@ -60,6 +64,7 @@ def test_ornl_opendap_download_links():
                 _ = dset[var][...]
 
 
+@pytest.mark.llnl
 def test_llnl_https_download_links():
     urls = get_page_links(
         (
@@ -80,7 +85,7 @@ def test_llnl_https_download_links():
 
 def check_search(esg_search: str):
     """Given the connection for the search, use pyesgf to check search results."""
-    conn = SearchConnection(esg_search, distrib=False)
+    conn = SearchConnection(esg_search, distrib=False, timeout=600)
     ctx = conn.new_context(
         facets=[
             "data_node",
@@ -120,19 +125,24 @@ def check_search(esg_search: str):
 def check_file_core(core):
     file_url = f"https://{core}/esg-search/search?type=File&distrib=false&limit=0&format=application%2fsolr%2bjson"
     resp = requests.get(file_url)
-    
-    numfound = resp.json()["response"]["numFound"] 
+
+    numfound = resp.json()["response"]["numFound"]
     if numfound < EXPECTED_FILES:
-        raise ValueError(f"At {core}: {numfound} files found, below the {EXPECTED_FILES} threshold.")
+        raise ValueError(
+            f"At {core}: {numfound} files found, below the {EXPECTED_FILES} threshold."
+        )
 
 
+@pytest.mark.ornl
 def test_ornl_search():
     check_search("https://esgf-node.ornl.gov/esg-search/")
 
 
+@pytest.mark.llnl
 def test_llnl_search():
     check_search("https://esgf-node.llnl.gov/esg-search")
 
 
+@pytest.mark.ornl
 def test_ornl_file_core():
     check_file_core("esgf-node.ornl.gov")
