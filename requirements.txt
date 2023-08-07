@@ -2,3 +2,4 @@ pytest
 requests
 esgf-pyclient
 netcdf4
+numpy
