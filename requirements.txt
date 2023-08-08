@@ -3,3 +3,4 @@ requests
 esgf-pyclient
 netcdf4
 numpy
+selenium

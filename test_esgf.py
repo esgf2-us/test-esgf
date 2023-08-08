@@ -66,7 +66,9 @@ def check_file_core(core):
         )
 
 
-def benchmark_search(core, typical_mean, typical_std, repeat=10):
+def benchmark_search(
+    core: str, typical_mean: float, typical_std: float, repeat: int = 10
+):
     times = np.array(
         timeit.repeat(partial(check_search, core), number=1, repeat=repeat)
     )
