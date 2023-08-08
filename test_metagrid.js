@@ -32,7 +32,7 @@ export default async function () {
         }
 
         /* Wait until the results show up for timing */
-        await page.locator("//tr[@class='ant-table-row ant-table-row-level-0']");
+        await page.locator("//tr[@class='ant-table-row ant-table-row-level-0']"); // <-- this isn't waiting
 
         check(page, {
             header: page.locator('title').textContent() == 'ESGF MetaGrid',
