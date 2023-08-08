@@ -31,11 +31,11 @@ export default async function () {
             facet.press("Escape");
         }
 
-        /* Wait until the results show up for timing */
-        await page.locator("//tr[@class='ant-table-row ant-table-row-level-0']"); // <-- this isn't waiting
+        /* If the copy search button is clickable, the query is finished */
+        await page.locator("//button/span[text()='Copy Search']").click();
 
         check(page, {
-            header: page.locator('title').textContent() == 'ESGF MetaGrid',
+            title: page.locator('title').textContent() == 'ESGF MetaGrid',
         });
 
     } finally {
