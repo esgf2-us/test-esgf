@@ -143,7 +143,7 @@ def test_ornl_search():
     for dsr in results:
         links = [
             fr.opendap_url
-            for fr in dsr.file_context().search()
+            for fr in dsr.file_context().search(ignore_facet_check=True)
             if fr.opendap_url is not None
         ]
         if len(links) != dsr.number_of_files:
@@ -158,7 +158,7 @@ def test_llnl_search():
     for dsr in results:
         links = [
             fr.opendap_url
-            for fr in dsr.file_context().search()
+            for fr in dsr.file_context().search(ignore_facet_check=True)
             if fr.opendap_url is not None
         ]
         if len(links) != dsr.number_of_files:
@@ -175,7 +175,7 @@ def test_ornl_file_core():
 @pytest.mark.ornl
 @pytest.mark.performance
 def test_ornl_search_speed():
-    benchmark_search("https://esgf-node.ornl.gov/esg-search/", 1.11, 0.06)
+    benchmark_search("https://esgf-node.ornl.gov/esg-search/", 1.01, 0.05)
 
 
 @pytest.mark.llnl
