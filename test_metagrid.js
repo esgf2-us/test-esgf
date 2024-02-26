@@ -1,8 +1,20 @@
 import { check } from 'k6';
-import { chromium } from 'k6/experimental/browser';
+import { browser } from 'k6/experimental/browser';
+
+export const options = {
+    scenarios: {
+        ui: {
+            executor: 'shared-iterations',
+            options:{
+                browser: {
+                    type: 'chromium'
+                }
+            }
+        }
+    }
+}
 
 export default async function () {
-    const browser = chromium.launch({ headless: false });
     const page = browser.newPage();
 
     try {
@@ -40,6 +52,5 @@ export default async function () {
 
     } finally {
         page.close();
-        browser.close();
     }
 }
